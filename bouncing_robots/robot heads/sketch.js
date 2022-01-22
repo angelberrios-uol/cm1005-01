@@ -34,8 +34,12 @@ var robot2_y;
 var robot2Speed_x;
 var robot2Speed_y;
 
+var height;
+var width;
+
 function setup()
-{
+
+ {
 	//create a canvas for the robot
 	createCanvas(600, 700);
 	robot1_x = random(0, width - 100);
@@ -47,10 +51,10 @@ function setup()
 	robot1Speed_x = random(2, 5);
 	robot1Speed_y = random(2, 5);
 
-	robot2Speed_x = 0;
-	robot2Speed_y = 0;
+	robot2Speed_x = random(2, 5);
+	robot2Speed_y = random(2, 5);
 
-}
+ }
 
 function draw()
 {
@@ -129,9 +133,23 @@ function draw()
 	//update the robots location
 	robot1_x += robot1Speed_x;
 	robot1_y += robot1Speed_y;
-	//robot2_x += robot2Speed_x;
-	//robot2_y += robot2Speed_y;
+	robot2_x += robot2Speed_x;
+	robot2_y += robot2Speed_y;
 
+    console.log(robot1_x);
+    
 	//place your if statements here
+    
+    if (((robot1_x > width-75)||(robot1_x < 75)) || (((robot1_y) > height-75)||((robot1_y) < 75))) 
+    {
+        robot1Speed_x *= -1;
+        robot1Speed_y *= -1;
+    }
 
+    if (((robot2_x > width-75)||(robot2_x < 75)) || (((robot2_y) > height-75)||((robot2_y) < 75))) 
+    {
+        robot2Speed_x *= -1;
+        robot2Speed_y *= -1;
+    }
 }
+
