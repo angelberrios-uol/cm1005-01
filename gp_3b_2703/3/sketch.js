@@ -13,7 +13,6 @@ var width;
 var height;
 
 var c;
-var distance;
 
 var gameChar_x;
 var gameChar_y;
@@ -26,6 +25,7 @@ var isJump=false;
 var isFalling=false;
 var isPlummeting=false;
 var isFound=false;
+var isCanyon=false;
 
 var collectable;
 
@@ -152,22 +152,39 @@ function draw()
         ellipseMode(CORNERS);
         ellipse(gameChar_x - 25,gameChar_y - 27,gameChar_x + 25, gameChar_y - 42);
         ellipseMode(CENTER);
- 
-
 	}
 
 	///////////INTERACTION CODE//////////
 	//Put conditional statements to move the game character below here
 	
-		if (isPlummeting==true)
-			{
-				gameChar_y = gameChar_y + 50;
-//				isPlummeting = false;
-			}
+	if (isLeft == true)
+	{
+		gameChar_x -= 1;
+	}
+	if (isRight == true)
+	{
+		gameChar_x += 1;
+	}
+	if (isJump == true)
+	{
+		gameChar_y -= 1;
+	}
 	
-		console.log(isPlummeting);
-		console.log(gameChar_x);
-    
+	
+	// Determine if subject is within Canyon Zone
+	
+	if ((isCanyon == true) && (isPlummeting == true))
+		{
+		isPlummeting = false;
+		}
+	
+	if ((gameChar_x >= 605) && (gameChar_x <= 705))
+		
+		{
+			isCanyon = true;
+			isPlummeting = true;
+		}
+		
         if ((isRight) && (gameChar_x < width)) 
             {
                 gameChar_x=gameChar_x+2;
@@ -190,20 +207,24 @@ function draw()
                 gameChar_x=gameChar_x-2;
                 gameChar_y=gameChar_y+10;
             }    
-        else if ((gameChar_y < floorPos_y) && ((gameChar_x < 605) && (gameChar_x > 705)))
+        else if (gameChar_y < floorPos_y)
+//		else if ((gameChar_y < floorPos_y) && (isCanyon == false))
         {
                 isFalling=true;
                 gameChar_y = gameChar_y + 5;
         }
-		else if (((gameChar_x >= 605) && (gameChar_x <= 705)) && (isPlummeting=false))
+		else if  ((isCanyon == true) && (isPlummeting == true))
 			{
-				isPlummeting=true			
+				gameChar_y = gameChar_y +50;
 			}
         else  
         {
                 isFalling=false;
+				isPlummeting=false
         }
-	
+		console.log(isPlummeting);
+		console.log(gameChar_x);
+		console.log(isCanyon);
 }
 
 
@@ -261,9 +282,6 @@ function keyReleased()
     {
         isJump=false;
  //       console.log("key Released left " + isFalling);      
-    }
-
-    
-    
+    }    
     
 }
