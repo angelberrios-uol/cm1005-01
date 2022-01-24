@@ -8,46 +8,60 @@ Game interaction
 
 */
 
-
+//canvas
 var width;
 var height;
 
+// game
 var gameChar_x;
 var gameChar_y;
 var floorPos_y;
 var keyCode;
 
+// Movement
 var isLeft=false;
 var isRight=false;
 var trunkWidth=40;
 var trunkHeight=150;
 
+// Trees
 var canopyWidth=120;
 var canopyHeight=110;
 var treePos_y;
 var trees_x;
 
+// clouds
 var clouds_y=100;
 var clouds_width=65;
 var clouds_height=55;
 
+// Mountains
 var mountain_width=230;
 var mountain_height=275;
 
+//canyon
 var canyon_width=300;
+
+//collectables
+var collectable_size=75;
+var collectable_y=400;
+var c=String.fromCharCode(42);
 
 function setup()
 {	
+	//initialization
 	createCanvas(1024, 576);
 	floorPos_y = height * 3/4;
 	gameChar_x = width/2;
 	gameChar_y = floorPos_y;
 	treePos_y = height/2 +25;
-	// Initialize array of trees objects
+	
+	// Initialize array of objects
 	trees_x = [200,400,600,900];
 	clouds_x = [100,300,600,800];
 	mountains_x =[300,600,750,850];
 	canyon_x = [905]
+	collectables = [150,460,850];
 }
 
 
@@ -55,11 +69,15 @@ function draw()
 {
 
 	///////////DRAWING CODE//////////
-
+	
 	background(100,155,255); //fill the sky blue
 	noStroke();
 	fill(0,155,0);
 	rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
+	
+	// Scrool objects
+	push();
+	translate(512-gameChar_x, 0);	
 	
 	for(var k = 0; k < mountains_x.length; k++)
 		{
@@ -86,8 +104,16 @@ function draw()
     		triangle(canyon_x[l] - canyon_width, height, width, floorPos_y + 10, width, height);
     		triangle(canyon_x[l] - canyon_width, floorPos_y, width,floorPos_y, canyon_x[l] - canyon_width, height - 10);
 		}
+	for(var m =0; m < collectables.length; m++)
+		{
+			fill(255,215,0,240);
+    		textAlign(CENTER,CENTER);
+    		textSize(collectable_size);
+    		text(c,collectables[m],collectable_y);
+		}
 
-    
+    pop();
+	
 	//the game character
 	// add your standing front facing code
     ellipse(gameChar_x, gameChar_y - 63, 20, 25);
